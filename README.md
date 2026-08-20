@@ -1,87 +1,170 @@
-# 🤖 My First SmolAgent
+# My First SmolAgent
 
-A beginner-friendly project exploring **Hugging Face smolagents** and local LLM inference in Google Colab.
+A beginner-friendly project exploring the smolagents framework with a local language model running in Google Colab.
 
-This project is part of my learning journey through the **Hugging Face Agents Course – Unit 1**.
+This project demonstrates how to set up smolagents, verify GPU availability, load a local Qwen instruction-following model using TransformersModel, and generate a response from a user prompt.
 
-## 🚀 Project Overview
+## Project Overview
 
-In this project, I set up a local language model using Hugging Face's `smolagents` framework and tested it in Google Colab with a T4 GPU.
+The notebook was developed and tested in Google Colab with an NVIDIA Tesla T4 GPU.
 
-The project currently demonstrates:
-
-* Installing `smolagents`
-* Checking the installed package version
-* Checking GPU availability
-* Loading a local language model
-* Using `TransformersModel`
-* Sending a prompt to the model
-* Generating a response
-
-## 🛠️ Technologies Used
+The project uses:
 
 * Python
-* Google Colab
-* Hugging Face `smolagents`
+* Hugging Face smolagents
 * Hugging Face Transformers
-* Qwen/Qwen2.5-1.5B-Instruct
 * PyTorch
-* NVIDIA T4 GPU
+* Qwen/Qwen2.5-1.5B-Instruct
+* Google Colab GPU
 
-## 🤖 Model
+The main purpose of the project is to understand the basic setup required to run a local language model through the smolagents framework.
 
-**Qwen/Qwen2.5-1.5B-Instruct**
+## Architecture
 
-The model is loaded locally in Google Colab using `TransformersModel`.
+text
+Google Colab
+     |
+     v
+NVIDIA Tesla T4 GPU
+     |
+     v
+Install smolagents + Transformers + Accelerate
+     |
+     v
+Initialize TransformersModel
+     |
+     v
+Qwen/Qwen2.5-1.5B-Instruct
+     |
+     v
+User Prompt
+     |
+     v
+Local Model Inference
+     |
+     v
+Generated Response
 
-## 📂 Project Structure
+## How It Works
 
-```text
-My_First_SmolAgent/
-│
-└── My_First_SmolAgent.ipynb
-```
+The notebook follows these steps:
 
-## ▶️ How to Run
+1. Checks the available NVIDIA GPU using nvidia-smi.
+2. Installs or updates smolagents, Transformers, and Accelerate.
+3. Verifies the installed smolagents version.
+4. Imports the required smolagents components.
+5. Checks the PyTorch version and confirms CUDA availability.
+6. Loads Qwen/Qwen2.5-1.5B-Instruct through smolagents.TransformersModel.
+7. Sends a user prompt to the local model.
+8. Prints the generated response.
 
-1. Open the notebook in Google Colab.
-2. Enable a GPU runtime.
-3. Install the required packages.
-4. Load the Qwen model.
-5. Run the model test.
-6. Enter prompts and observe the generated responses.
+## Model
 
-## 💡 Example
+The project uses:
 
-Input:
+Qwen/Qwen2.5-1.5B-Instruct
 
-```text
+The model is loaded with:
+
+python
+from smolagents import TransformersModel
+
+model = TransformersModel(
+    model_id="Qwen/Qwen2.5-1.5B-Instruct",
+    device_map="auto"
+)
+
+
+The device_map="auto" setting allows the Transformers-based model loading process to automatically determine an appropriate device placement.
+
+## Hardware Environment
+
+The notebook successfully detected:
+
+* GPU: NVIDIA Tesla T4
+* GPU memory: 15 GB
+* PyTorch: 2.11.0+cu128
+* CUDA available: True
+* smolagents: 1.26.0
+
+The model download shown in the notebook includes approximately 3.09 GB of model weights.
+
+## Example
+
+The notebook sends the following prompt to the model:
+
+text
 What is the capital of India?
-```
 
-Output:
 
-```text
+The recorded output is:
+
+text
 The capital of India is New Delhi.
-```
 
-## 📚 Learning Goal
 
-The goal of this project is to understand the fundamentals of AI agents using Hugging Face `smolagents`, including:
+## Installation
 
-* Models
-* Agents
-* Tools
-* Agent reasoning
-* Actions
-* Observations
+Run the following command in Google Colab:
 
-## 🔨 Next Step
+bash
+!pip install -U "smolagents[transformers]" transformers accelerate
 
-The next version of this project will extend the model into a proper `CodeAgent` and add tools so that the agent can perform actions instead of only generating direct model responses.
 
-## 👩‍💻 Author
+Then verify the installation:
 
-Ishwarya
+python
+import smolagents
 
-This is my first hands-on project while learning AI agents with Hugging Face `smolagents`.
+print("smolagents version:", smolagents.__version__)
+
+
+## Project Structure
+
+text
+My_First_SmolAgent.ipynb
+README.md
+
+
+The main implementation is contained in the Jupyter notebook.
+
+## Important Scope
+
+This project is intentionally simple and focuses on local model inference through smolagents.
+
+The current notebook:
+
+* Loads a local Qwen model.
+* Accepts a text prompt.
+* Generates a text response.
+* Uses the Google Colab GPU for model execution.
+
+The current notebook does *not*:
+
+* Create a CodeAgent instance.
+* Execute agent steps.
+* Use DuckDuckGoSearchTool.
+* Perform web searches.
+* Connect to an external inference API.
+* Implement custom tools.
+
+CodeAgent and DuckDuckGoSearchTool are imported in the notebook, but they are not used in the executed model workflow.
+
+## Learning Outcome
+
+This project provides a basic understanding of:
+
+* Setting up smolagents in Google Colab.
+* Checking GPU and CUDA availability.
+* Loading a local instruction-following model.
+* Using TransformersModel from smolagents.
+* Sending a structured chat message to a local model.
+* Receiving and displaying the model's generated response.
+
+## Future Extension
+
+A natural next step would be to build an actual tool-using agent with CodeAgent and one or more tools. That would extend this basic local model setup into a more complete agent workflow.
+
+## Project Status
+
+Completed as a first hands-on experiment with smolagents and local language model inference in Google Colab.
